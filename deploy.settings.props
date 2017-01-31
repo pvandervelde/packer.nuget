@@ -103,6 +103,18 @@
             </Groups>
         </DeployStepsToExecute>
         -->
+        <DeployStepsToExecute
+            Include="$(DirWorkspace)\deploy.pushto.appveyor.msbuild">
+            <Properties>
+                Configuration=$(ProductionConfiguration);
+                Platform=$(Platform);
+            </Properties>
+            <Groups>
+                AppVeyor;
+                Push;
+            </Groups>
+        </DeployStepsToExecute>
+        <!--
         <DeployStepsToExecute Include="$(DeployStepsPushToNuget)">
             <Properties>
                 Configuration=$(ProductionConfiguration);
@@ -113,6 +125,7 @@
                 Push;
             </Groups>
         </DeployStepsToExecute>
+        -->
         <!--
         <DeployStepsToExecute Include="$(DeployStepsPushToDirectory)">
             <Properties>
