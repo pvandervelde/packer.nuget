@@ -6,12 +6,10 @@
     <Import Project="$(DirNBuildKitMsBuildShared)\shared.importbuildsharedsettings.props"
             Condition="Exists('$(DirNBuildKitMsBuildShared)\shared.importbuildsharedsettings.props') AND '$(ExistsSharedImportBuildSharedSettings)' != 'true' " />
 
+    <Import Project="$(DirNBuildKitMsBuildExtensions)\GetSemanticVersionFromFile.msbuild"
+            Condition="Exists('$(DirNBuildKitMsBuildExtensions)\GetSemanticVersionFromFile.msbuild') AND '$(ExistsExtensionsGetSemanticVersionFromFile)' != 'true' " />
     <Import Project="$(DirNBuildKitMsBuildExtensions)\Unzip.msbuild"
             Condition="Exists('$(DirNBuildKitMsBuildExtensions)\Unzip.msbuild') AND '$(ExistsExtensionsUnzip)' != 'true' " />
-
-    <PropertyGroup>
-        <PackerVersion>0.12.2</PackerVersion>
-    </PropertyGroup>
 
     <Target Name="Prepare_DownloadPacker_Run">
         <CallTarget Targets="Prepare_DownloadPacker_Download" />
@@ -19,6 +17,21 @@
     </Target>
 
     <Target Name="Prepare_DownloadPacker_Download">
+        <GetSemanticVersionFromFile VersionFile="$(FileSemanticVersion)"
+                                    Condition="Exists('$(FileSemanticVersion)') AND '$(ShouldExecute)' == 'true' ">
+            <Output TaskParameter="VersionMajor" PropertyName="VersionMajor" />
+            <Output TaskParameter="VersionMinor" PropertyName="VersionMinor" />
+            <Output TaskParameter="VersionPatch" PropertyName="VersionPatch" />
+        </GetSemanticVersionFromFile>
+        <Message Text="Searching for major version: $(VersionMajor)" />
+        <Message Text="Searching for minor version: $(VersionMinor)" />
+        <Message Text="Searching for patch version: $(VersionPatch)" />
+
+        <PropertyGroup>
+            <PackerVersion>$(VersionMajor).$(VersionMinor).$(VersionPatch)</PackerVersion>
+        </PropertyGroup>
+        <Message Text="Searching for packer version: $(PackerVersion)" />
+
         <ItemGroup>
             <FilesToDownload Include="https://releases.hashicorp.com/packer/$(PackerVersion)/packer_$(PackerVersion)_windows_amd64.zip">
                 <OutputFile>packer_windows_x64.zip</OutputFile>
