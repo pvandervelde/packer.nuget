@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="11.0"
+         DefaultTargets="Prepare_DownloadPacker_Run"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Import Project="$(DirNBuildKitMsBuildShared)\shared.importbuildsharedsettings.props"
+            Condition="Exists('$(DirNBuildKitMsBuildShared)\shared.importbuildsharedsettings.props') AND '$(ExistsSharedImportBuildSharedSettings)' != 'true' " />
+
+    <Import Project="$(DirNBuildKitMsBuildExtensions)\GetSemanticVersionFromFile.msbuild"
+            Condition="Exists('$(DirNBuildKitMsBuildExtensions)\GetSemanticVersionFromFile.msbuild') AND '$(ExistsExtensionsGetSemanticVersionFromFile)' != 'true' " />
+    <Import Project="$(DirNBuildKitMsBuildExtensions)\Unzip.msbuild"
+            Condition="Exists('$(DirNBuildKitMsBuildExtensions)\Unzip.msbuild') AND '$(ExistsExtensionsUnzip)' != 'true' " />
+
+    <Target Name="Prepare_DownloadPacker_Run">
+        <CallTarget Targets="Prepare_DownloadPacker_Download" />
+        <CallTarget Targets="Prepare_DownloadPacker_Extract" />
+    </Target>
+
+    <Target Name="Prepare_DownloadPacker_Download">
+        <GetSemanticVersionFromFile VersionFile="$(FileSemanticVersion)"
+                                    Condition="Exists('$(FileSemanticVersion)') AND '$(ShouldExecute)' == 'true' ">
+            <Output TaskParameter="VersionMajor" PropertyName="VersionMajor" />
+            <Output TaskParameter="VersionMinor" PropertyName="VersionMinor" />
+            <Output TaskParameter="VersionPatch" PropertyName="VersionPatch" />
+        </GetSemanticVersionFromFile>
+        <Message Text="Searching for major version: $(VersionMajor)" />
+        <Message Text="Searching for minor version: $(VersionMinor)" />
+        <Message Text="Searching for patch version: $(VersionPatch)" />
+
+        <PropertyGroup>
+            <PackerVersion>$(VersionMajor).$(VersionMinor).$(VersionPatch)</PackerVersion>
+        </PropertyGroup>
+        <Message Text="Searching for packer version: $(PackerVersion)" />
+
+        <ItemGroup>
+            <FilesToDownload Include="https://releases.hashicorp.com/packer/$(PackerVersion)/packer_$(PackerVersion)_windows_amd64.zip">
+                <OutputFile>packer_windows_x64.zip</OutputFile>
+            </FilesToDownload>
+            <FilesToDownload Include="https://releases.hashicorp.com/packer/$(PackerVersion)/packer_$(PackerVersion)_windows_386.zip">
+                <OutputFile>packer_windows_x86.zip</OutputFile>
+            </FilesToDownload>
+        </ItemGroup>
+
+        <DownloadFile
+            Condition="!Exists('$(DirBuildTemp)\%(FilesToDownload.OutputFile)')"
+            OutputPath="$(DirBuildTemp)\%(FilesToDownload.OutputFile)"
+            Url="%(FilesToDownload.Identity)" />
+    </Target>
+
+    <Target Name="Prepare_DownloadPacker_Extract">
+        <ItemGroup>
+            <FilesToExtract Include="$(DirBuildTemp)\*.zip" />
+        </ItemGroup>
+
+        <Unzip InputFileName="%(FilesToExtract.FullPath)"
+               DestinationDirectory="$(DirBuildTemp)\unzip\%(FilesToExtract.Filename)"
+               Condition=" '@(FilesToExtract)' != '' " />
+    </Target>
+
+    <UsingTask TaskName="DownloadFile"
+               TaskFactory="CodeTaskFactory"
+               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+            <Url ParameterType="System.String" Required="true" />
+            <OutputPath ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Code Type="Method" Language="cs">
+                <![CDATA[
+                    public override bool Execute()
+                    {
+                        try
+                        {
+                            Log.LogMessage(
+                                MessageImportance.Normal,
+                                "Downloading '{0}' to '{1}'",
+                                Url,
+                                OutputPath);
+
+                            // Ignore certificate warnings
+                            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                                new System.Net.Security.RemoteCertificateValidationCallback(delegate { return true; });
+                            System.Net.ServicePointManager.SecurityProtocol =
+                                System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
+                            using (var client = new System.Net.WebClient())
+                            {
+                                client.DownloadFile(Url, OutputPath);
+                            }
+                        }
+                        catch(Exception e)
+                        {
+                            Log.LogError(e.ToString());
+                        }
+
+                        // Log.HasLoggedErrors is true if the task logged any errors -- even if they were logged
+                        // from a task's constructor or property setter. As long as this task is written to always log an error
+                        // when it fails, we can reliably return HasLoggedErrors.
+                        return !Log.HasLoggedErrors;
+                    }
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+</Project>
