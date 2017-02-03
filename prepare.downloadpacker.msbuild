@@ -60,12 +60,18 @@
     <Target
         DependsOnTargets="Prepare_DownloadPacker_GetVersion;Prepare_DownloadPacker_Download"
         Name="Prepare_DownloadPacker_VerifyHashes">
+
         <!--
-            Verify that the signature file is untampered
+            Load the HashiCorp public signature so that we can verify it. For the time being
+            this has been stored in a file in the repository.
         -->
+        <Exec Command="&quot;$(ToolsExternalGpgPath)&quot; --import &quot;$(DirWorkspace)\hashicorp.gpg&quot;" />
+
         <!--
-        <Exec Command="&quot;$(ToolsExternalGpgPath)&quot; - -verify $(DirBuildTemp)\sha256sums.sig $(DirBuildTemp)\sha256sums" />
+            Verify that the signature file is untampered. The pgp executable will return a non-zero exit code if
+            things are not ok.
         -->
+        <Exec Command="&quot;$(ToolsExternalGpgPath)&quot; --verify &quot;$(DirBuildTemp)\sha256sums.sig&quot; &quot;$(DirBuildTemp)\sha256sums&quot;" />
 
         <!--
             Verify that the SHA256 matches
