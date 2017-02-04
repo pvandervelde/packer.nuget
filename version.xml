@@ -9,7 +9,7 @@
         <VersionMajor>0</VersionMajor>
         <VersionMinor>12</VersionMinor>
         <VersionPatch>2</VersionPatch>
-        <VersionBuild>$(BuildNumber)</VersionBuild>
+        <VersionBuild>0</VersionBuild>
         <VersionPreRelease></VersionPreRelease>
     </PropertyGroup>
 </Project>

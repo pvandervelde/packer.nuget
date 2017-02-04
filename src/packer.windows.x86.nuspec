@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Packer.Windows.x86</id>
-        <version>$VersionSemantic$</version>
+        <version>$VersionMajor$.$VersionMinor$.$VersionPatch$.$VersionBuild$</version>
         <authors>$CompanyName$</authors>
         <owners>HashiCorp</owners>
         <licenseUrl>https://www.packer.io/</licenseUrl>
