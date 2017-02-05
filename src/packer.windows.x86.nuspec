@@ -9,7 +9,7 @@
         <projectUrl>$CompanyUrl$</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
-            ${ProductDescription}
+            $ProductDescription$
         </description>
         <releaseNotes>
             $ReleaseNotesHtmlEncoded$
