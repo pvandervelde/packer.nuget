@@ -18,7 +18,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="$DirTemp$\unzip\packer_windows_x64\*.*" />
+        <file src="$DirTemp$\downloads\x64\*.*" />
 
         <file src="$DirWorkspace$\README.md" />
         <file src="$DirWorkspace$\LICENSE" />
