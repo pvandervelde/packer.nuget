@@ -8,7 +8,7 @@
 
         <VersionMajor>1</VersionMajor>
         <VersionMinor>1</VersionMinor>
-        <VersionPatch>0</VersionPatch>
+        <VersionPatch>1</VersionPatch>
         <VersionBuild>0</VersionBuild>
         <VersionPreRelease></VersionPreRelease>
     </PropertyGroup>
