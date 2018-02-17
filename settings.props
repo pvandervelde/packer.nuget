@@ -672,6 +672,7 @@
 
     <!-- Overrides for the tools paths -->
     <PropertyGroup>
+        <ToolsExternalGpgPath>gpg</ToolsExternalGpgPath>
     </PropertyGroup>
 
 
