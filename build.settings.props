@@ -71,18 +71,6 @@
             <UserName></UserName>
             <Unzip>true</Unzip>
         </HttpFilesToCopy>
-        <HttpFilesToCopy Include="https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_windows_386.zip">
-            <Destination>$(DirBuildTempDownloads)\x86</Destination>
-            <GpgKey>51852D87348FFC4C</GpgKey>
-            <Hash></Hash>
-            <HashAlgorithm>SHA256</HashAlgorithm>
-            <HashFile>https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_SHA256SUMS</HashFile>
-            <Password></Password>
-            <SignatureFile>https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_SHA256SUMS.sig</SignatureFile>
-            <UseDefaultCredentials></UseDefaultCredentials>
-            <UserName></UserName>
-            <Unzip>true</Unzip>
-        </HttpFilesToCopy>
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadFilesToCopy)' == 'true' ">
         <!--
