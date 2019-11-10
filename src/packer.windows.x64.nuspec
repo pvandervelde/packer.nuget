@@ -6,6 +6,7 @@
         <authors>$CompanyName$</authors>
         <owners>HashiCorp</owners>
         <projectUrl>$CompanyUrl$</projectUrl>
+        <license type="expression">Apache-2.0</license>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
             $ProductDescription$
