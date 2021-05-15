@@ -7,8 +7,8 @@
         <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
 
         <VersionMajor>1</VersionMajor>
-        <VersionMinor>6</VersionMinor>
-        <VersionPatch>3</VersionPatch>
+        <VersionMinor>7</VersionMinor>
+        <VersionPatch>2</VersionPatch>
         <VersionBuild>0</VersionBuild>
         <VersionPreRelease></VersionPreRelease>
     </PropertyGroup>
