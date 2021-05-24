@@ -61,12 +61,12 @@
     <ItemGroup Condition=" '$(ShouldLoadHttpFilesToCopy)' == 'true' AND '@(HttpFilesToCopy)' == '' ">
         <HttpFilesToCopy Include="https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_windows_amd64.zip">
             <Destination>$(DirBuildTempDownloads)\x64</Destination>
-            <GpgKey>51852D87348FFC4C</GpgKey>
+            <!-- <GpgKey>51852D87348FFC4C</GpgKey> -->
             <Hash></Hash>
-            <HashAlgorithm>SHA256</HashAlgorithm>
-            <HashFile>https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_SHA256SUMS</HashFile>
+            <!-- <HashAlgorithm>SHA256</HashAlgorithm> -->
+            <!-- <HashFile>https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_SHA256SUMS</HashFile> -->
             <Password></Password>
-            <SignatureFile>https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_SHA256SUMS.sig</SignatureFile>
+            <!-- <SignatureFile>https://releases.hashicorp.com/packer/${VersionMajor}.${VersionMinor}.${VersionPatch}/packer_${VersionMajor}.${VersionMinor}.${VersionPatch}_SHA256SUMS.sig</SignatureFile> -->
             <UseDefaultCredentials></UseDefaultCredentials>
             <UserName></UserName>
             <Unzip>true</Unzip>
